@@ -1,6 +1,7 @@
 #include "ttf_manager.hpp"
 #include "init.h"
 #include <iostream>
+#include "changetext.h"
 
 using namespace std;
 
@@ -196,8 +197,12 @@ SDL_Surface *ttf_managerst::get_texture(int handle) {
           SDL_Rect right = {Sint16(xpos), 0, Sint16(it->pixel_width), Sint16(height)};
           SDL_FillRect(textimg, &right, bgc);
         }
+
+
+
+
         // Render the TTF segment
-        SDL_Surface *textimg_seg = TTF_RenderUNICODE_Blended(font, &text_unicode[0], fgc);
+        SDL_Surface *textimg_seg = TTF_RenderUNICODE_Blended(font, ChangeText(&text_unicode[0]), fgc);
         // Fill the background color of this part of the textimg
         SDL_Rect dest = {Sint16(xpos), 0, Sint16(textimg_seg->w), Sint16(height)};
         SDL_FillRect(textimg, &dest,
