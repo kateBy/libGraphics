@@ -51,7 +51,7 @@ size_t my_strlen(uint16_t * s) {
 /* Функция, получающая исходный текст и передающая его на обработку скрипту*/
 EXPORT uint16_t * ChangeText(uint16_t * src) {
 
-PyObject * pValue = NULL;
+static PyObject * pValue = NULL;
 PyObject * bytesUtf16;
 
     if(!initialized) Init();
