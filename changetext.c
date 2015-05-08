@@ -57,19 +57,19 @@ PyObject * bytesUtf16;
     if(!initialized) Init();
     
     if(pfuncChangeText && pArgs) {
-        bytesUtf16 = PyBytes_FromStringAndSize(src, my_strlen(src));
+        bytesUtf16 = PyBytes_FromStringAndSize((char*)src, my_strlen(src));
         PyTuple_SetItem(pArgs, 0, bytesUtf16);
         Py_XDECREF(pValue);
         pValue = PyObject_CallObject(pfuncChangeText, pArgs);
-        if(!pValue)
-            PyErr_PrintEx(1);
-        if(pValue) {
-            if (pValue == Py_None)  //Если скрипт не нашел перевода, он возвращает None
-                 return src;        //Отдаём игре то же, что получили
-
-            return PyBytes_AS_STRING(pValue);
+        if(pValue == Py_None)
+        {
+            return src;
         }
+        
+        if(pValue)
+            return (uint16_t*)PyBytes_AS_STRING(pValue);
         else {
+            PyErr_PrintEx(1);
             Py_XDECREF(pValue);
             return 0;
         }
