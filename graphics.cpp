@@ -101,7 +101,6 @@ void graphicst::resize(int x, int y)  {
 /*Функция занимается отрисовкой строки через графику*/
 void graphicst::addcoloredst(const char *str, const char *colorstr)
 {
-    const int slen = strlen(str);
     changecolor((colorstr[0] & 7),((colorstr[0] & 56))>>3,((colorstr[0] & 64))>>6);
     string someBuf = str;
     addst(someBuf);
