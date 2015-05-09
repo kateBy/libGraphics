@@ -1467,8 +1467,6 @@ char standardstringentry(string &str,int maxlen,unsigned int flag,std::set<Inter
             cont++;
         }
     }
-    
-    printf("Entry %d\n", entry);
 
     if(entry!=1)
     {
@@ -1488,7 +1486,6 @@ char standardstringentry(string &str,int maxlen,unsigned int flag,std::set<Inter
                 if(entry>=RUS_a&&entry<=RUS_z) entry += RUS_A - RUS_a;
                 //if(entry=='ё') entry+='Ё'-'ё';
             }
-            printf("Entry %d\n", entry);
             str[cursor]=entry;
         }
         return 1;
