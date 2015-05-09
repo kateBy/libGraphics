@@ -1412,18 +1412,20 @@ char standardstringentry(char *str,int maxlen,unsigned int flag,std::set<Interfa
 	return ret;
 }
 
+#define RUS_A 0xc0
+#define RUS_a 0xe0
+#define RUS_z 0xff
+
 char standardstringentry(string &str,int maxlen,unsigned int flag,std::set<InterfaceKey> &events)
 {
     unsigned char entry=1;
     unsigned char cont;
-    unsigned short int item;    
-
+    unsigned short int item;
     if(flag & STRINGENTRY_LETTERS)
     {
-        puts("Letters!");
-        if (events.count(INTERFACEKEY_STRING_A168)) entry=168;//Ё
-        if (events.count(INTERFACEKEY_STRING_A184)) entry=184;//ё
-        cont='А'; // cyrillic A
+        if(events.count(INTERFACEKEY_STRING_A168))entry=168;//Ё
+        if(events.count(INTERFACEKEY_STRING_A184))entry=184;//ё
+        cont=RUS_A; // cyrillic A
         for(item = INTERFACEKEY_STRING_A192; item <= INTERFACEKEY_STRING_A255; item++)//все русские буквы
         {
             if(events.count(item)) entry = cont;
@@ -1442,15 +1444,12 @@ char standardstringentry(string &str,int maxlen,unsigned int flag,std::set<Inter
             cont++;
         }
     }
-    if(flag & STRINGENTRY_SPACE){
+    if(flag & STRINGENTRY_SPACE)
         if(events.count(INTERFACEKEY_STRING_A032)) entry=' ';
-        puts("Space!");
-      
-    }
     
     if(events.count(INTERFACEKEY_STRING_A000)) entry='\x0';
     if(flag & STRINGENTRY_NUMBERS)
-    {  puts("NUMBERS!!");
+    {
         cont=0;
         for(item = INTERFACEKEY_STRING_A048; item <= INTERFACEKEY_STRING_A057; item++)//цифры
         {
@@ -1460,7 +1459,7 @@ char standardstringentry(string &str,int maxlen,unsigned int flag,std::set<Inter
     }
         
     if(flag & STRINGENTRY_SYMBOLS)
-    { puts("SYMBOLS!");
+    {
         cont=0;
         for(item = INTERFACEKEY_STRING_A000; item <= INTERFACEKEY_STRING_A255; item++)
         {
@@ -1468,11 +1467,14 @@ char standardstringentry(string &str,int maxlen,unsigned int flag,std::set<Inter
             cont++;
         }
     }
+    
+    printf("Entry %d\n", entry);
 
     if(entry!=1)
-    { puts("String!");
-        if(entry=='\x0')
+    {
+        if(entry=='\x0'){
             if(str.length()>0) str.resize(str.length()-1);
+	}
         else
         {
             int cursor=str.length();
@@ -1483,9 +1485,10 @@ char standardstringentry(string &str,int maxlen,unsigned int flag,std::set<Inter
             if(flag & STRINGENTRY_CAPS)
             {
                 if(entry>='a'&&entry<='z') entry+='A'-'a';
-                if(entry>='а'&&entry<='я') entry+='A'-'a';
-                if(entry=='ё') entry+='Ё'-'ё';
+                if(entry>=RUS_a&&entry<=RUS_z) entry += RUS_A - RUS_a;
+                //if(entry=='ё') entry+='Ё'-'ё';
             }
+            printf("Entry %d\n", entry);
             str[cursor]=entry;
         }
         return 1;
