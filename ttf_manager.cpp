@@ -116,12 +116,16 @@ ttf_details ttf_managerst::get_handle(const list<ttf_id> &text, justification ju
     } else {
       cp437_to_unicode(it->text, text_unicode);
       int slice_width, slice_height;
-      TTF_SizeUNICODE(font, ChangeText(&text_unicode[0]), &slice_width, &slice_height);
+      uint16_t * changed = ChangeText(&text_unicode[0]);
+      size_t newSize = my_strlen16(changed);
+      TTF_SizeUNICODE(font, changed, &slice_width, &slice_height);
       ttf_width += slice_width;
-      text_width += it->text.size();
+      text_width += newSize;
     }
   }
   ttf_height = ceiling;
+
+  
   // Compute geometry
   double grid_width = double(ttf_width) / tile_width;
   double offset = just == justify_right ? text_width - grid_width :
@@ -135,9 +139,8 @@ ttf_details ttf_managerst::get_handle(const list<ttf_id> &text, justification ju
   const int grid_offset = int(integral + 0.001); // Tiles to move to the right in addst
   const int pixel_offset = int(fraction * tile_width); // Black columns to add to the left of the image
   // const int full_grid_width = int(ceil(double(ttf_width) / double(tile_width) + fraction) + 0.1); // Total width of the image in grid units
-  const int full_grid_width = text_width;
+  const int full_grid_width = ttf_width / tile_width + (ttf_width % tile_width > 0);
   const int pixel_width = full_grid_width * tile_width; // And pixels
-  assert(pixel_width >= ttf_width);
   // Store for later
   ttf_details ret; ret.handle = handle; ret.offset = grid_offset; ret.width = full_grid_width;
   handles[id] = ret;

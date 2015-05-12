@@ -48,6 +48,12 @@ size_t my_strlen(uint16_t * s) {
     return i*sizeof(uint16_t);
 }
 
+size_t my_strlen16(uint16_t * s) {
+    size_t i;
+    for(i=0; s[i]; i++);
+    return i;
+}
+
 /* Функция, получающая исходный текст и передающая его на обработку скрипту*/
 EXPORT uint16_t * ChangeText(uint16_t * src) {
 
