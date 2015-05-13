@@ -41,6 +41,9 @@ typedef int32_t Ordinal;
 #include "init.h"
 #include "basics.h"
 
+#define RUS_a 0xe0
+#define RUS_z 0xff
+
 extern string errorlog_prefix;
 
 void errorlog_string(const string &str)
@@ -363,10 +366,10 @@ void upper_case_string(string &str)
 	for(s=0;s<str.length();s++)
 		{
 		//CAPITALIZE
-		if(str[s]>='a'&&str[s]<='z')
+		if(str[s]>=RUS_a&&str[s]<=RUS_z)
 			{
-			str[s]-='a';
-			str[s]+='A';
+			str[s]-=RUS_a;
+			str[s]+=RUS_z;
 			}
 		switch(str[s])
 			{
@@ -452,10 +455,11 @@ void capitalize_string_first_word(string &str)
 		if(s==0||conf)
 			{
 			//CAPITALIZE
-			if(str[s]>='a'&&str[s]<='z')
+
+			if(str[s]>=RUS_a&&str[s]<=RUS_z)
 				{
-				str[s]-='a';
-				str[s]+='A';
+				str[s]-=RUS_a;
+				str[s]+=RUS_z;
 				return;
 				}
 			switch(str[s])
