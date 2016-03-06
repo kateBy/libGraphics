@@ -6,7 +6,7 @@ BIGINCLUDE=-I/usr/include/gtk-3.0/ -I/usr/include/glib-2.0/ -I/usr/lib/i386-linu
 LINKS=-L. -lSDL -lSDL_ttf -lSDL_image -lGLU -lgobject-2.0 -lgtk-x11-2.0 -lstdc++ -lm -lpython3.4m -lGRP
 
 all: changetext.o basics.o enabler.o command_line.o enabler_input.o files.o find_files_posix.o graphics.o init.o interface.o keybindings.o KeybindingScreen.o music_and_sound_openal.o random.o renderer_offscreen.o resize++.o textlines.o textures.o ttf_manager.o ViewBase.o win32_compat.o 
-	gcc -shared -o MYLIB.so changetext.o basics.o enabler.o command_line.o enabler_input.o files.o find_files_posix.o graphics.o init.o interface.o keybindings.o KeybindingScreen.o music_and_sound_openal.o random.o renderer_offscreen.o resize++.o textlines.o textures.o ttf_manager.o ViewBase.o win32_compat.o  $(LINKS)
+	gcc -shared -o libgraphics.so changetext.o basics.o enabler.o command_line.o enabler_input.o files.o find_files_posix.o graphics.o init.o interface.o keybindings.o KeybindingScreen.o music_and_sound_openal.o random.o renderer_offscreen.o resize++.o textlines.o textures.o ttf_manager.o ViewBase.o win32_compat.o  $(LINKS)
 	
 changetext.o: changetext.c
 	gcc -c changetext.c  $(CTAIL) -o changetext.o 
