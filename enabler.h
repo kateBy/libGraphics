@@ -9,11 +9,19 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_thread.h"
 #ifdef __APPLE__
+<<<<<<< HEAD
 # include "SDL_ttf/SDL_ttf.h"
 # include "SDL_image/SDL_image.h"
 #else
 # include "SDL/SDL_ttf.h"
 # include "SDL/SDL_image.h"
+=======
+# include <SDL_ttf/SDL_ttf.h>
+# include <SDL_image/SDL_image.h>
+#else
+# include <SDL/SDL_ttf.h>
+# include <SDL/SDL_image.h>
+>>>>>>> 6d0189a... Добавлены файлы v43
 #endif
 
 #include "GL/glew.h"
