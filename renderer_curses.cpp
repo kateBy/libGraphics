@@ -1,8 +1,3 @@
-#include <stdlib.h>
-#include "enabler.h"
-#include "curses.h"
-
-
 static bool curses_initialized = false;
 
 static void endwin_void() {
@@ -89,7 +84,7 @@ public:
     const int bg   = gps.screen[x*gps.dimy*4 + y*4 + 2];
     const int bold = gps.screen[x*gps.dimy*4 + y*4 + 3];
 
-    const int pair = lookup_pair(std::make_pair(fg,bg));
+    const int pair = lookup_pair(make_pair(fg,bg));
 
     if (ch == 219 && !bold) {
       // It's █, which is used for borders and digging designations.
@@ -304,7 +299,7 @@ extern "C" {
       handle = dlopen("libncursesw.so", RTLD_LAZY);
       if (handle) goto opened;
       puts("Didn't find any flavor of libncursesw, attempting libncurses");
-      //sleep(5);
+      sleep(5);
       handle = dlopen("libncurses.dylib", RTLD_LAZY);
       if (handle) goto opened;
       handle = dlopen("libncurses.so.5", RTLD_LAZY);

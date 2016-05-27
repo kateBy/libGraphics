@@ -4,8 +4,6 @@
 # include <gtk/gtk.h>
 #endif
 
-#include <gtk/gtk.h>
-
 #include <cassert>
 
 #include "platform.h"
