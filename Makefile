@@ -3,7 +3,7 @@ CFLAGS=-c
 TAIL=-w --std=c++11 -I/usr/include/
 CTAIL=-w --std=c99 -I/usr/include/python3.4m/
 BIGINCLUDE=-I/usr/include/gtk-3.0/ -I/usr/include/glib-2.0/ -I/usr/lib/i386-linux-gnu/glib-2.0/include/ -I/usr/include/cairo/ -I/usr/include/pango-1.0/ -I/usr/include/gtk-3.0/gdk/ -I/usr/include/gdk-pixbuf-2.0/ -I/usr/include/atk-1.0/
-LINKS=-L. -lSDL -lSDL_ttf -lSDL_image -lGLU -lgobject-2.0 -lgtk-x11-2.0 -lstdc++ -lm -lpython3.4m -lGLEW libGLEW.a -lfmodex
+LINKS=-L. -lSDL -lSDL_ttf -lSDL_image -lGLU -lgobject-2.0 -lgtk-x11-2.0 -lstdc++ -lm -lfmodex -lpython3.4m -l:libGLEW.a 
 
 all: changetext.o basics.o enabler.o command_line.o enabler_input.o files.o find_files_posix.o graphics.o init.o interface.o keybindings.o KeybindingScreen.o music_and_sound_openal.o random.o renderer_offscreen.o resize++.o textlines.o textures.o ttf_manager.o ViewBase.o win32_compat.o 
 	gcc -shared -o libgraphics.so changetext.o basics.o enabler.o command_line.o enabler_input.o files.o find_files_posix.o graphics.o init.o interface.o keybindings.o KeybindingScreen.o music_and_sound_openal.o random.o renderer_offscreen.o resize++.o textlines.o textures.o ttf_manager.o ViewBase.o win32_compat.o  $(LINKS)

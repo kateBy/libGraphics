@@ -117,8 +117,8 @@ ttf_details ttf_managerst::get_handle(const list<ttf_id> &text, justification ju
     } else {
       cp437_to_unicode(it->text, text_unicode);
       int slice_width, slice_height;
-      uint16_t * changed = ChangeText(&text_unicode[0]);
-      size_t newSize = my_strlen16(changed);
+      uint16_t * changed = ChangeText(&text_unicode[0]); //Переводим через скрипт
+      size_t newSize = my_strlen16(changed); //Узнаём длину нового текста
       TTF_SizeUNICODE(font, changed, &slice_width, &slice_height);
       ttf_width += slice_width;
       text_width += newSize;
@@ -126,7 +126,7 @@ ttf_details ttf_managerst::get_handle(const list<ttf_id> &text, justification ju
   }
   ttf_height = ceiling;
 
-  
+
   // Compute geometry
   double grid_width = double(ttf_width) / tile_width;
   double offset = just == justify_right ? text_width - grid_width :
