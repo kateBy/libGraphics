@@ -1,6 +1,7 @@
 #include "ttf_manager.hpp"
 #include "init.h"
 #include <iostream>
+#include "changetext.h"
 
 using namespace std;
 
@@ -70,7 +71,7 @@ int ttf_managerst::size_text(const string &text) {
   vector<Uint16> text_unicode;
   cp437_to_unicode(text, text_unicode);
   int width, height;
-  TTF_SizeUNICODE(font, &text_unicode[0], &width, &height);
+  TTF_SizeUNICODE(font, ChangeText(&text_unicode[0]), &width, &height); //Заменяем текст для корректной обработки длины
   return (width + tile_width - 1) / tile_width;
 }
 
@@ -87,6 +88,7 @@ ttf_details ttf_managerst::get_handle(const list<ttf_id> &text, justification ju
   for (auto it = text.cbegin(); it != text.cend(); ++it) {
     int pos = 0;
     int tabpos;
+    //cout << it->text << endl;
     while ((tabpos = it->text.find("\t", pos)) != string::npos) {
       ttf_id left;
       left.fg = it->fg; left.bg = it->bg; left.bold = it->bold;
@@ -115,12 +117,16 @@ ttf_details ttf_managerst::get_handle(const list<ttf_id> &text, justification ju
     } else {
       cp437_to_unicode(it->text, text_unicode);
       int slice_width, slice_height;
-      TTF_SizeUNICODE(font, &text_unicode[0], &slice_width, &slice_height);
+      uint16_t * changed = ChangeText(&text_unicode[0]);
+      size_t newSize = my_strlen16(changed);
+      TTF_SizeUNICODE(font, changed, &slice_width, &slice_height);
       ttf_width += slice_width;
-      text_width += it->text.size();
+      text_width += newSize;
     }
   }
   ttf_height = ceiling;
+
+  
   // Compute geometry
   double grid_width = double(ttf_width) / tile_width;
   double offset = just == justify_right ? text_width - grid_width :
@@ -134,9 +140,8 @@ ttf_details ttf_managerst::get_handle(const list<ttf_id> &text, justification ju
   const int grid_offset = int(integral + 0.001); // Tiles to move to the right in addst
   const int pixel_offset = int(fraction * tile_width); // Black columns to add to the left of the image
   // const int full_grid_width = int(ceil(double(ttf_width) / double(tile_width) + fraction) + 0.1); // Total width of the image in grid units
-  const int full_grid_width = text_width;
+  const int full_grid_width = ttf_width / tile_width + (ttf_width % tile_width > 0);// ? 1 : 0);
   const int pixel_width = full_grid_width * tile_width; // And pixels
-  assert(pixel_width >= ttf_width);
   // Store for later
   ttf_details ret; ret.handle = handle; ret.offset = grid_offset; ret.width = full_grid_width;
   handles[id] = ret;
@@ -196,8 +201,9 @@ SDL_Surface *ttf_managerst::get_texture(int handle) {
           SDL_Rect right = {Sint16(xpos), 0, Sint16(it->pixel_width), Sint16(height)};
           SDL_FillRect(textimg, &right, bgc);
         }
+
         // Render the TTF segment
-        SDL_Surface *textimg_seg = TTF_RenderUNICODE_Blended(font, &text_unicode[0], fgc);
+        SDL_Surface *textimg_seg = TTF_RenderUNICODE_Blended(font, ChangeText(&text_unicode[0]), fgc);  //Тут происходит запрос на перевод текста через скрипт
         // Fill the background color of this part of the textimg
         SDL_Rect dest = {Sint16(xpos), 0, Sint16(textimg_seg->w), Sint16(height)};
         SDL_FillRect(textimg, &dest,

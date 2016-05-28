@@ -48,23 +48,34 @@ size_t my_strlen(uint16_t * s) {
     return i*sizeof(uint16_t);
 }
 
+size_t my_strlen16(uint16_t * s) {
+    size_t i;
+    for(i=0; s[i]; i++);
+    return i;
+}
+
+/* Функция, получающая исходный текст и передающая его на обработку скрипту*/
 EXPORT uint16_t * ChangeText(uint16_t * src) {
-    PyObject * pValue = NULL;
-    PyObject * bytesUtf16;
+
+static PyObject * pValue = NULL;
+PyObject * bytesUtf16;
+
     if(!initialized) Init();
     
     if(pfuncChangeText && pArgs) {
-        printf("Length: %d\n", my_strlen(src));
-        bytesUtf16 = PyBytes_FromStringAndSize(src, my_strlen(src));
+        bytesUtf16 = PyBytes_FromStringAndSize((char*)src, my_strlen(src));
         PyTuple_SetItem(pArgs, 0, bytesUtf16);
         Py_XDECREF(pValue);
         pValue = PyObject_CallObject(pfuncChangeText, pArgs);
-        if(!pValue)
-            PyErr_PrintEx(1);
-        if(pValue) {
-            return PyBytes_AS_STRING(pValue);
+        if(pValue == Py_None)
+        {
+            return src;
         }
+        
+        if(pValue)
+            return (uint16_t*)PyBytes_AS_STRING(pValue);
         else {
+            PyErr_PrintEx(1);
             Py_XDECREF(pValue);
             return 0;
         }
