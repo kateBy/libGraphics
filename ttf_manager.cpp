@@ -1,7 +1,6 @@
 #include "ttf_manager.hpp"
 #include "init.h"
 #include <iostream>
-#include "changetext.h"
 
 using namespace std;
 
@@ -71,7 +70,7 @@ int ttf_managerst::size_text(const string &text) {
   vector<Uint16> text_unicode;
   cp437_to_unicode(text, text_unicode);
   int width, height;
-  TTF_SizeUNICODE(font, ChangeText(&text_unicode[0]), &width, &height); //Заменяем текст для корректной обработки длины
+  TTF_SizeUNICODE(font, &text_unicode[0], &width, &height); //Заменяем текст для корректной обработки длины
   return (width + tile_width - 1) / tile_width;
 }
 
@@ -117,11 +116,9 @@ ttf_details ttf_managerst::get_handle(const list<ttf_id> &text, justification ju
     } else {
       cp437_to_unicode(it->text, text_unicode);
       int slice_width, slice_height;
-      uint16_t * changed = ChangeText(&text_unicode[0]); //Переводим через скрипт
-      size_t newSize = my_strlen16(changed); //Узнаём длину нового текста
-      TTF_SizeUNICODE(font, changed, &slice_width, &slice_height);
+      TTF_SizeUNICODE(font, &text_unicode[0], &slice_width, &slice_height);
       ttf_width += slice_width;
-      text_width += newSize;
+      text_width += it->text.size();
     }
   }
   ttf_height = ceiling;
@@ -203,7 +200,7 @@ SDL_Surface *ttf_managerst::get_texture(int handle) {
         }
 
         // Render the TTF segment
-        SDL_Surface *textimg_seg = TTF_RenderUNICODE_Blended(font, ChangeText(&text_unicode[0]), fgc);  //Тут происходит запрос на перевод текста через скрипт
+        SDL_Surface *textimg_seg = TTF_RenderUNICODE_Blended(font, &text_unicode[0], fgc);  //Тут происходит запрос на перевод текста через скрипт
         // Fill the background color of this part of the textimg
         SDL_Rect dest = {Sint16(xpos), 0, Sint16(textimg_seg->w), Sint16(height)};
         SDL_FillRect(textimg, &dest,

@@ -1,5 +1,10 @@
 #include "Python.h"
-#include "changetext.h"
+#include "changetext.hpp"
+using namespace std;
+#include <string>
+#include <cstring>
+#include <vector>
+#include "basics.h"
 
 #if defined(WIN32) || defined(WINDOWS)
 #define ERROR_MESSAGE(message) MessageBox(0,message,"ChangeText",MB_ICONERROR)
@@ -11,7 +16,7 @@ PyObject * pModule = NULL,
          * pfuncChangeText = NULL,
          * pArgs = NULL;
 
-int initialized = 0;
+static int initialized = 0;
 
 EXPORT int Init() {
     Py_Initialize();
@@ -34,7 +39,7 @@ EXPORT int Init() {
         ERROR_MESSAGE("Error: Failed to import changetext.py module.\nSee changetext.err for details.\n");
         #endif
     }
-    
+
     initialized = 1; // At least tried to initialize
     return pfuncChangeText!=NULL;
 }
@@ -54,6 +59,35 @@ size_t my_strlen16(uint16_t * s) {
     return i;
 }
 
+EXPORT std::string ChangeTextString(const std::string src_text) {
+  static PyObject * pValue = NULL;
+  PyObject * pyString;
+
+  if(!initialized) Init();
+
+  if(pfuncChangeText && pArgs) {
+      pyString = PyBytes_FromString(src_text.c_str());
+      PyTuple_SetItem(pArgs, 0, pyString);
+      Py_XDECREF(pValue);
+      pValue = PyObject_CallObject(pfuncChangeText, pArgs);
+      if(pValue == Py_None)
+          return src_text;
+
+      if(pValue)
+          return PyBytes_AS_STRING(pValue);
+      else {
+          PyErr_PrintEx(1);
+          Py_XDECREF(pValue);
+          return 0;
+      }
+  }
+  else return src_text;
+
+
+
+  return src_text;
+}
+
 /* Функция, получающая исходный текст и передающая его на обработку скрипту*/
 EXPORT uint16_t * ChangeText(uint16_t * src) {
 
@@ -61,7 +95,7 @@ static PyObject * pValue = NULL;
 PyObject * bytesUtf16;
 
     if(!initialized) Init();
-    
+
     if(pfuncChangeText && pArgs) {
         bytesUtf16 = PyBytes_FromStringAndSize((char*)src, my_strlen(src));
         PyTuple_SetItem(pArgs, 0, bytesUtf16);
@@ -71,7 +105,7 @@ PyObject * bytesUtf16;
         {
             return src;
         }
-        
+
         if(pValue)
             return (uint16_t*)PyBytes_AS_STRING(pValue);
         else {
