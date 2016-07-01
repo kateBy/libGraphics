@@ -18,7 +18,6 @@
 #endif
 
 #ifndef WIN32
-#include <gtk/gtk.h>
 BOOL CreateDirectory(const char* pathname, void*)
 {
   if (mkdir(pathname, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)) {

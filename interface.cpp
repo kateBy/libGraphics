@@ -988,12 +988,12 @@ char interfacest::loop() {
         }
         if (era.count(INTERFACEKEY_FPS_UP)) {
           int fps = enabler.get_fps();
-          enabler.set_fps(fps + fps/10);
+          enabler.set_fps(fps + (fps+9)/10);
           enabler.clear_fps();
         }
         if (era.count(INTERFACEKEY_FPS_DOWN)) {
           int fps = enabler.get_fps();
-          enabler.set_fps(fps - fps/10);
+          enabler.set_fps(fps - (fps+8)/10);
           enabler.clear_fps();
         }
       }
@@ -1765,6 +1765,7 @@ char standardstringentry(string &str,int maxlen,unsigned int flag,std::set<Inter
 			else str[cursor]=entry;
 			}
 
+		events.clear();
 
 		return 1;
 		}
