@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include "platform.h"
 #include <string.h>
 #include <math.h>

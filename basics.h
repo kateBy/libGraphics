@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #ifndef BASICS_H
 #define BASICS_H
 
@@ -115,53 +114,6 @@ enum justification : unsigned char {
 
 extern int charmap[256];
 
-#endif
-=======
-#ifndef BASICS_H
-#define BASICS_H
-
-#ifndef WIN32
-#include <stdint.h>
-#endif
-#include <string>
-using std::string;
-
-#ifndef BITS
-
-#define BITS
-
-#define BIT1 1
-#define BIT2 2
-#define BIT3 4
-#define BIT4 8
-#define BIT5 16
-#define BIT6 32
-#define BIT7 64
-#define BIT8 128
-#define BIT9 256
-#define BIT10 512
-#define BIT11 1024
-#define BIT12 2048
-#define BIT13 4096
-#define BIT14 8192
-#define BIT15 16384
-#define BIT16 32768
-#define BIT17 65536UL
-#define BIT18 131072UL
-#define BIT19 262144UL
-#define BIT20 524288UL
-#define BIT21 1048576UL
-#define BIT22 2097152UL
-#define BIT23 4194304UL
-#define BIT24 8388608UL
-#define BIT25 16777216UL
-#define BIT26 33554432UL
-#define BIT27 67108864UL
-#define BIT28 134217728UL
-#define BIT29 268435456UL
-#define BIT30 536870912UL
-#define BIT31 1073741824UL
-#define BIT32 2147483648UL
 
 //1-19
 const char zero[] = {237, 238, 235, 252, 0};//ноль
