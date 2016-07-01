@@ -7,8 +7,8 @@
 
 #ifndef NO_FMOD
 
-#include <fmod.hpp>
-#include <fmod_errors.h>
+#include "fmod/fmod.hpp"
+#include "fmod/fmod_errors.h"
 
 /* The maximums can be no larger than the largest value
  * of a signed integer.

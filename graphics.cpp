@@ -17,6 +17,8 @@
 #include "svector.h"
 #include "ttf_manager.hpp"
 
+#include "changetext.hpp"
+
 #ifdef WIN32
 
 /*
@@ -98,22 +100,12 @@ void graphicst::resize(int x, int y)  {
   screen_limit = screen + dimx * dimy * 4;
 }
 
-void graphicst::addcoloredst(const char *str,const char *colorstr)
+/*Функция занимается отрисовкой строки через графику*/
+void graphicst::addcoloredst(const char *str, const char *colorstr)
 {
-  const int slen = strlen(str);
-  int s;
-  for(s=0; s < slen && screenx < init.display.grid_x; s++)
-    {
-      if(screenx<0)
-        {
-          s-=screenx;
-          screenx=0;
-          if (s >= slen) break;
-        }
-      
-      changecolor((colorstr[s] & 7),((colorstr[s] & 56))>>3,((colorstr[s] & 64))>>6);
-      addchar(str[s]);
-    }
+    changecolor((colorstr[0] & 7),((colorstr[0] & 56))>>3,((colorstr[0] & 64))>>6);
+    string someBuf = str;
+    addst(someBuf);
 }
 
 static list<ttf_id> ttfstr;
@@ -203,7 +195,7 @@ void graphicst::addst(const string &str_orig, justification just, int space)
 {
   if (!str_orig.size())
     return;
-  string str = str_orig;
+  string str = ChangeTextString(str_orig);
   if (space)
     abbreviate_string_hackaroundmissingcode(str, space);
   if (just == not_truetype || !ttf_manager.ttf_active()) {
@@ -216,7 +208,7 @@ void graphicst::addst(const string &str_orig, justification just, int space)
             screenx=0;
             if(s>=str.length())break;
           }
-        
+
         addchar(str[s]);
       }
   } else {
@@ -270,7 +262,7 @@ void graphicst::erasescreen_clip()
 }
 
 void graphicst::erasescreen_rect(int x1, int x2, int y1, int y2)
-{ 
+{
   changecolor(0,0,0);
   for (int x = x1; x <= x2; x++) {
     for (int y = y1; y <= y2; y++) {
@@ -525,10 +517,10 @@ void render_things()
   //GRAB CURRENT SCREEN AT THE END OF THE LIST
   viewscreenst *currentscreen=&gview.view;
   while(currentscreen->child!=NULL)currentscreen=currentscreen->child;
-  
+
   //NO INTERFACE LEFT, LEAVE
   if(currentscreen==&gview.view)return;
-  
+
   if(currentscreen->breakdownlevel==INTERFACE_BREAKDOWN_NONE)
 	{
 	currentscreen->render();

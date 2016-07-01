@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "platform.h"
 #include <string.h>
 #include <math.h>
@@ -563,30 +564,30 @@ void get_number(int32_t number,string &str)
 	if(number<0)
 		{
 		number*=-1;
-		str="negative ";
+		str=string(negative);
 		}
 	switch(number)
 		{
-		case 0:str="zero";break;
-		case 1:str="one";break;
-		case 2:str="two";break;
-		case 3:str="three";break;
-		case 4:str="four";break;
-		case 5:str="five";break;
-		case 6:str="six";break;
-		case 7:str="seven";break;
-		case 8:str="eight";break;
-		case 9:str="nine";break;
-		case 10:str="ten";break;
-		case 11:str="eleven";break;
-		case 12:str="twelve";break;
-		case 13:str="thirteen";break;
-		case 14:str="fourteen";break;
-		case 15:str="fifteen";break;
-		case 16:str="sixteen";break;
-		case 17:str="seventeen";break;
-		case 18:str="eighteen";break;
-		case 19:str="nineteen";break;
+		case 0:str=string(zero);break;
+		case 1:str=string(one);break;
+		case 2:str=string(two);break;
+		case 3:str=string(three);break;
+		case 4:str=string(four);break;
+		case 5:str=string(five);break;
+		case 6:str=string(six);break;
+		case 7:str=string(seven);break;
+		case 8:str=string(eight);break;
+		case 9:str=string(nine);break;
+		case 10:str=string(ten);break;
+		case 11:str=string(eleven);break;
+		case 12:str=string(twelve);break;
+		case 13:str=string(thirteen);break;
+		case 14:str=string(fourteen);break;
+		case 15:str=string(fifteen);break;
+		case 16:str=string(sixteen);break;
+		case 17:str=string(seventeen);break;
+		case 18:str=string(eighteen);break;
+		case 19:str=string(nineteen);break;
 		default:
 			{
 			if(number>=1000000000)
@@ -594,7 +595,7 @@ void get_number(int32_t number,string &str)
 				string nm;
 				get_number(number/1000000000,nm);
 				str+=nm;
-				str+=" billion";
+				str+=string(billion);
 				if(number%1000000000!=0)
 					{
 					str+=" ";
@@ -608,7 +609,7 @@ void get_number(int32_t number,string &str)
 				string nm;
 				get_number(number/1000000,nm);
 				str+=nm;
-				str+=" million";
+				str+=string(million);
 				if(number%1000000!=0)
 					{
 					str+=" ";
@@ -622,7 +623,7 @@ void get_number(int32_t number,string &str)
 				string nm;
 				get_number(number/1000,nm);
 				str+=nm;
-				str+=" thousand";
+				str+=string(thousand);
 				if(number%1000!=0)
 					{
 					str+=" ";
@@ -636,7 +637,7 @@ void get_number(int32_t number,string &str)
 				string nm;
 				get_number(number/100,nm);
 				str+=nm;
-				str+=" hundred";
+				str+=string(hundred);
 				if(number%100!=0)
 					{
 					str+=" ";
@@ -649,14 +650,14 @@ void get_number(int32_t number,string &str)
 				{
 				switch(number/10)
 					{
-					case 2:str="twenty";break;
-					case 3:str="thirty";break;
-					case 4:str="forty";break;
-					case 5:str="fifty";break;
-					case 6:str="sixty";break;
-					case 7:str="seventy";break;
-					case 8:str="eighty";break;
-					case 9:str="ninety";break;
+					case 2:str=string(twenty);break;
+					case 3:str=string(thirty);break;
+					case 4:str=string(forty);break;
+					case 5:str=string(fifty);break;
+					case 6:str=string(sixty);break;
+					case 7:str=string(seventy);break;
+					case 8:str=string(eighty);break;
+					case 9:str=string(ninety);break;
 					}
 				if(number%10!=0)
 					{
@@ -685,24 +686,8 @@ void get_ordinal(int32_t number,string &str,bool shorten)
 			str="-";
 			}
 		add_long_to_string(number,str);
-		switch(number%10)
-			{
-			case 1:
-				if(number%100==11)str+="th";
-				else str+="st";
-				break;
-			case 2:
-				if(number%100==12)str+="th";
-				else str+="nd";
-				break;
-			case 3:
-				if(number%100==13)str+="th";
-				else str+="rd";
-				break;
-			default:
-				str+="th";
-				break;
-			}
+		str+=string(ord_th);
+		
 		return;
 		}
 
@@ -710,50 +695,33 @@ void get_ordinal(int32_t number,string &str,bool shorten)
 	if(number<0)
 		{
 		number*=-1;
-		str="Negative ";
+		str=string(Negative);
 		}
 	switch(number)
 		{
-		case 0:str="Zeroth";break;
-		case 1:str="First";break;
-		case 2:str="Second";break;
-		case 3:str="Third";break;
-		case 4:str="Fourth";break;
-		case 5:str="Fifth";break;
-		case 6:str="Sixth";break;
-		case 7:str="Seventh";break;
-		case 8:str="Eighth";break;
-		case 9:str="Ninth";break;
-		case 10:str="Tenth";break;
-		case 11:str="Eleventh";break;
-		case 12:str="Twelfth";break;
-		case 13:str="Thirteenth";break;
-		case 14:str="Fourteenth";break;
-		case 15:str="Fifteenth";break;
-		case 16:str="Sixteenth";break;
-		case 17:str="Seventeenth";break;
-		case 18:str="Eighteenth";break;
-		case 19:str="Nineteenth";break;
+		case 0:str=string(Zeroth);break;
+		case 1:str=string(First);break;
+		case 2:str=string(Second);break;
+		case 3:str=string(Third);break;
+		case 4:str=string(Fourth);break;
+		case 5:str=string(Fifth);break;
+		case 6:str=string(Sixth);break;
+		case 7:str=string(Seventh);break;
+		case 8:str=string(Eighth);break;
+		case 9:str=string(Ninth);break;
+		case 10:str=string(Tenth);break;
+		case 11:str=string(Eleventh);break;
+		case 12:str=string(Twelfth);break;
+		case 13:str=string(Thirteenth);break;
+		case 14:str=string(Fourteenth);break;
+		case 15:str=string(Fifteenth);break;
+		case 16:str=string(Sixteenth);break;
+		case 17:str=string(Seventeenth);break;
+		case 18:str=string(Eighteenth);break;
+		case 19:str=string(Nineteenth);break;
 		default:
 			add_long_to_string(number,str);
-			switch(number%10)
-				{
-				case 1:
-					if(number%100==11)str+="th";
-					else str+="st";
-					break;
-				case 2:
-					if(number%100==12)str+="th";
-					else str+="nd";
-					break;
-				case 3:
-					if(number%100==13)str+="th";
-					else str+="rd";
-					break;
-				default:
-					str+="th";
-					break;
-				}
+                        str+=string(ord_th);
 			break;
 		}
 }
@@ -761,7 +729,7 @@ void get_ordinal(int32_t number,string &str,bool shorten)
 // Map DF's CP437 to Unicode
 // see: http://dwarffortresswiki.net/index.php/Character_table
 int charmap[256] = {
-  ' ', 0x263A, 0x263B, 0x2665, 0x2666, 0x2663, 0x2660, 0x2022,
+  ' ',    0x263A, 0x263B, 0x2665, 0x2666, 0x2663, 0x2660, 0x2022,
   0x25D8, 0x25CB, 0x25D9, 0x2642, 0x2640, 0x266A, 0x266B, 0x263C,
   0x25BA, 0x25C4, 0x2195, 0x203C, 0x00B6, 0x00A7, 0x25AC, 0x21A8,
   0x2191, 0x2193, 0x2192, 0x2190, 0x221F, 0x2194, 0x25B2, 0x25BC,
@@ -773,20 +741,21 @@ int charmap[256] = {
   0x60,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,
   0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a,0x7b,0x7c,0x7d,0x7e,0x2302,
   /* 0x80 */
-  0xC7, 0xFC, 0xE9, 0xE2, 0xE4, 0xE0, 0xE5, 0xE7,
-  0xEA, 0xEB, 0xE8, 0xEF, 0xEE, 0xEC, 0xC4, 0xC5,
-  0xC9, 0xE6, 0xC6, 0xF4, 0xF6, 0xF2, 0xFB, 0xF9,
-  0xFF, 0xD6, 0xDC, 0xA2, 0xA3, 0xA5, 0x20A7, 0x192,
-  0xE1, 0xED, 0xF3, 0xFA, 0xF1, 0xD1, 0xAA, 0xBA,
-  0xBF, 0x2310, 0xAC, 0xBD, 0xBC, 0xA1, 0xAB, 0xBB,
+  0xC7,   0xFC,   0xE9,   0xE2,   0xE4,   0xE0,   0xE5,   0xE7,
+  0xEA,   0xEB,   0xE8,   0xEF,   0xEE,   0xEC,   0xC4,   0xC5,
+  0xC9,   0xE6,   0xC6,   0xF4,   0xF6,   0xF2,   0xFB,   0xF9,
+  0xFF,   0xD6,   0xDC,   0xA2,   0xA3,   0xA5,   0x20A7, 0x192,
+  0xE1,   0xED,   0xF3,   0xFA,   0xF1,   0xD1,   0xAA,   0xBA,
+  0x401,  0x2310, 0xAC,   0xBD,   0xBC,   0xA1,   0xAB,   0xBB,
   0x2591, 0x2592, 0x2593, 0x2502, 0x2524, 0x2561, 0x2562, 0x2556,
-  0x2555, 0x2563, 0x2551, 0x2557, 0x255D, 0x255C, 0x255B, 0x2510,
-  0x2514, 0x2534, 0x252C, 0x251C, 0x2500, 0x253C, 0x255E, 0x255F,
-  0x255A, 0x2554, 0x2569, 0x2566, 0x2560, 0x2550, 0x256C, 0x2567,
-  0x2568, 0x2564, 0x2565, 0x2559, 0x2558, 0x2552, 0x2553, 0x256B,
-  0x256A, 0x2518, 0x250C, 0x2588, 0x2584, 0x258C, 0x2590, 0x2580,
-  0x3B1, 0xDF/*yay*/, 0x393, 0x3C0, 0x3A3, 0x3C3, 0xB5, 0x3C4,
-  0x3A6, 0x398, 0x3A9, 0x3B4, 0x221E, 0x3C6, 0x3B5, 0x2229,
-  0x2261, 0xB1, 0x2265, 0x2264, 0x2320, 0x2321, 0xF7, 0x2248,
-  0xB0, 0x2219, 0xB7, 0x221A, 0x207F, 0xB2, 0x25A0, 0xA0
+  0x0451, 0x2563, 0x2551, 0x2557, 0x255D, 0x255C, 0x255B, 0x2510,
+  0x0410, 0x0411, 0x0412, 0x0413, 0x0414, 0x0415, 0x0416, 0x0417, 
+  0x0418, 0x0419, 0x041A, 0x041B, 0x041C, 0x041D, 0x041E, 0x041F, 
+  0x0420, 0x0421, 0x0422, 0x0423, 0x0424, 0x0425, 0x0426, 0x0427, 
+  0x0428, 0x0429, 0x042A, 0x042B, 0x042C, 0x042D, 0x042E, 0x042F, 
+  0x0430, 0x0431, 0x0432, 0x0433, 0x0434, 0x0435, 0x0436, 0x0437, 
+  0x0438, 0x0439, 0x043A, 0x043B, 0x043C, 0x043D, 0x043E, 0x043F, 
+  0x0440, 0x0441, 0x0442, 0x0443, 0x0444, 0x0445, 0x0446, 0x0447, 
+  0x0448, 0x0449, 0x044A, 0x044B, 0x044C, 0x044D, 0x044E, 0x044F
 };
+

@@ -1,5 +1,5 @@
 #include <string>
-
+#  include <gtk/gtk.h>
 #include "enabler.h"
 #include "platform.h"
 #ifndef WIN32
